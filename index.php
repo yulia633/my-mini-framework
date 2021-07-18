@@ -4,7 +4,6 @@ require 'vendor/autoload.php';
 
 $app = new App\App;
 
-
 $container = $app->getContainer();
 
 $container['config'] = function () {
@@ -35,4 +34,12 @@ $container['db'] = function ($c) {
     return new PDO($DSN, $DB_USER, $DB_PASSWORD, $options);
 };
 
-var_dump($container->db);
+$app->get('/', function () {
+    echo 'Home';
+});
+
+$app->get('/users', function () {
+    echo 'Users';
+});
+
+$app->run();
