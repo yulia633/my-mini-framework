@@ -1,0 +1,12 @@
+---
+  version: '3'
+
+  services:
+    app:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: yulia633/my-own-framework
+      volumes:
+        - .:/app
+      command: ["make", "lint"]
