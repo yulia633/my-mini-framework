@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-$app = new App\App;
+$app = new App\App();
 
 $container = $app->getContainer();
 
@@ -17,7 +17,6 @@ $container['config'] = function () {
 };
 
 $container['db'] = function ($c) {
-
     $DB_HOST = $c->config['DATABASE_HOST'];
     $DB_NAME = $c->config['DATABASE_NAME'];
     $DB_USER = $c->config['DATABASE_USER'];
@@ -38,8 +37,12 @@ $app->get('/', function () {
     echo 'Home';
 });
 
-$app->get('/users', function () {
-    echo 'Users';
+$app->post('/signup', function () {
+    echo 'Sign up';
 });
+
+$app->map('/users', function () {
+    echo 'Users';
+}, ['GET', 'POST']);
 
 $app->run();
