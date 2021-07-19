@@ -1,4 +1,4 @@
-![linter](github.com/yulia633/my-mini-framework/workflows/linter/badge.svg)
+![linter](https://github.com/yulia633/my-mini-framework/workflows/linter/badge.svg)
 
 ### О коде
 
