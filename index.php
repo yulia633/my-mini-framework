@@ -6,6 +6,10 @@ $app = new App\App();
 
 $container = $app->getContainer();
 
+$container['errorHandler'] = function () {
+    echo '404';
+};
+
 $container['config'] = function () {
     return [
         "DATABASE_HOST" => getenv('DATABASE_HOST'),
