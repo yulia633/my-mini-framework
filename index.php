@@ -39,4 +39,8 @@ $container['db'] = function ($c) {
 
 $app->get('/', [new App\Controllers\BaseController($container->db), 'index']);
 
+// $app->get('/home', function ($response) {
+//     var_dump($response); die;
+// });
+
 $app->run();

@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 class BaseController
 {
-    public function index()
+    public function index($response)
     {
-        echo 'Home';
+        return $response->setBody('Home');
     }
 }
