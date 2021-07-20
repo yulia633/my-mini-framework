@@ -37,16 +37,6 @@ $container['db'] = function ($c) {
     return new PDO($DSN, $DB_USER, $DB_PASSWORD, $options);
 };
 
-$app->get('/', function () {
-    echo 'Home';
-});
-
-$app->post('/signup', function () {
-    echo 'Sign up';
-});
-
-$app->map('/users', function () {
-    echo 'Users';
-}, ['GET', 'POST']);
+$app->get('/', [new App\Controllers\BaseController($container->db), 'index']);
 
 $app->run();
