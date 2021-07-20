@@ -7,7 +7,9 @@ $app = new App\App();
 $container = $app->getContainer();
 
 $container['errorHandler'] = function () {
-    echo '404';
+    return function ($response) {
+        return $response->setBody('Страница не найдена')->withStatus(404);
+    };
 };
 
 $container['config'] = function () {
@@ -38,9 +40,6 @@ $container['db'] = function ($c) {
 };
 
 $app->get('/', [new App\Controllers\BaseController($container->db), 'index']);
-
-// $app->get('/home', function ($response) {
-//     var_dump($response); die;
-// });
+$app->get('/users', [new App\Controllers\UserController($container->db), 'index']);
 
 $app->run();
