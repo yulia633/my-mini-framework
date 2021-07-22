@@ -39,7 +39,7 @@ $container['db'] = function ($c) {
     return new PDO($DSN, $DB_USER, $DB_PASSWORD, $options);
 };
 
-$app->get('/', [new App\Controllers\BaseController($container->db), 'index']);
+$app->get('/', [new App\Controllers\BaseController(), 'index']);
 $app->get('/users', [new App\Controllers\UserController($container->db), 'index']);
 
 $app->run();
