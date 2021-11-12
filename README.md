@@ -24,4 +24,7 @@ $ http://localhost:8080
 
 # Остановить и удалить контейнеры, псевдоним для docker-compose down.
 $ make down
+
+# Зайти в контейнер в базу, псевдоним для docker exec -it.
+$ make compose-bash-mysql
 ```
