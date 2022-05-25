@@ -1,6 +1,11 @@
 <?php
 
-require 'vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 $app = new App\App();
 
@@ -14,19 +19,19 @@ $container['errorHandler'] = function () {
 
 $container['config'] = function () {
     return [
-        "DATABASE_HOST" => getenv('DATABASE_HOST'),
-        "DATABASE_NAME" =>  getenv('DATABASE_NAME'),
-        "DATABASE_USER" =>  getenv('DATABASE_USER'),
-        "DATABASE_PASSWORD" =>  getenv('DATABASE_PASSWORD'),
+        'MYSQL_USER' => $_ENV['MYSQL_USER'],
+        'MYSQL_ROOT_PASSWORD' => $_ENV['MYSQL_ROOT_PASSWORD'],
+        'MYSQL_HOST' => $_ENV['MYSQL_HOST'],
+        'MYSQL_DATABASE' => $_ENV['MYSQL_DATABASE'],
         "DATABASE_CHAR" => 'utf8'
     ];
 };
 
 $container['db'] = function ($c) {
-    $DB_HOST = $c->config['DATABASE_HOST'];
-    $DB_NAME = $c->config['DATABASE_NAME'];
-    $DB_USER = $c->config['DATABASE_USER'];
-    $DB_PASSWORD = $c->config['DATABASE_PASSWORD'];
+    $DB_HOST = $c->config['MYSQL_HOST'];
+    $DB_NAME = $c->config['MYSQL_DATABASE'];
+    $DB_USER = $c->config['MYSQL_USER'];
+    $DB_PASSWORD = $c->config['MYSQL_ROOT_PASSWORD'];
     $DB_CHARSET = $c->config['DATABASE_CHAR'];
 
     $DSN = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset={$DB_CHARSET}";
