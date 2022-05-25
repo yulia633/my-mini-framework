@@ -1,15 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use ArrayAccess;
 
 class Container implements ArrayAccess
 {
+    /**
+     * @var array
+     */
     protected $items = [];
 
+    /**
+     * @var array
+     */
     protected $cache = [];
 
+    /**
+     * Class constructor
+     * @param array $items
+     * @return void
+     */
     public function __construct(array $items = [])
     {
         foreach ($items as $key => $item) {
@@ -17,47 +30,82 @@ class Container implements ArrayAccess
         }
     }
 
-    public function offsetSet($offset, $value)
+    /**
+     * ArrayAccess: Set a given value to the given key.
+     * @param string  $key
+     * @param mixed  $value
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetSet(mixed $key, mixed $value): void
     {
-        $this->items[$offset] = $value;
+        $this->items[$key] = $value;
     }
 
-    public function offsetGet($offset)
+    /**
+     * ArrayAccess: Gets the given key.
+     * @param  mixed $key
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet(mixed $key): mixed
     {
-        if (!$this->has($offset)) {
+        if (!$this->has($key)) {
             return null;
         }
 
-        if (isset($this->cache[$offset])) {
-            return $this->cache[$offset];
+        if (isset($this->cache[$key])) {
+            return $this->cache[$key];
         }
 
-        $item = $this->items[$offset]($this);
+        $item = $this->items[$key]($this);
 
-        $this->cache[$offset] = $item;
+        $this->cache[$key] = $item;
 
         return $item;
     }
 
-    public function offsetUnset($offset)
+    /**
+     * ArrayAccess: Unsets the given key.
+     * @param mixed  $key
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetUnset(mixed $key): void
     {
-        if ($this->has($offset)) {
-            unset($this->items[$offset]);
+        if ($this->has($key)) {
+            unset($this->items[$key]);
         }
     }
 
-    public function offsetExists($offset)
+    /**
+     * ArrayAccess: Check if a given key exists.
+     * @param  mixed  $key
+     * @return boolean
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetExists(mixed $key): bool
     {
-        return isset($this->items[$offset]);
+        return $this->has($key);
     }
 
-    public function has($offset)
+    /**
+     * Checks if the container has the given key.
+     * @param  string $key
+     * @return boolean
+     */
+    public function has(string $key): bool
     {
-        return $this->offsetExists($offset);
+        return array_key_exists($key, $this->items);
     }
 
-    public function __get($property)
+    /**
+     * Magic method to allow object-type semantics for the container.
+     * @param  string $key
+     * @return mixed
+     */
+    public function __get(string $key): mixed
     {
-        return $this->offsetGet($property);
+        return $this->offsetGet($key);
     }
 }
