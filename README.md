@@ -8,11 +8,6 @@
 
 Вы можете использовать этот проект с помощью **docker** и **docker-compose**:
 
-**Минимальная версия Docker:**
-
-- Engine: 18.03+
-- Compose: 1.21+
-
 **Команды:**
 
 ```bash
@@ -20,11 +15,11 @@
 $ make up
 
 # Проверить приложение.
-$ http://localhost:8080
+$ http://localhost:80
 
-# Остановить и удалить контейнеры, псевдоним для docker-compose down.
+# Остановить контейнеры, псевдоним для docker-compose down.
 $ make down
 
 # Зайти в контейнер в базу, псевдоним для docker exec -it.
-$ make compose-bash-mysql
+$ make docker-compose-bash-mysql
 ```
