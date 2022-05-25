@@ -1,33 +1,33 @@
-up:
-	docker-compose up -d --build
-
-down:
-	docker-compose down
-
-
-compose-bash:
-	docker-compose run --rm app bash
-
-
-compose-bash-mysql:
-	docker exec -it my-own-framework-container bash
-
-
-compose-install:
-	docker-compose run --rm app make install
-
 install:
 	composer install
 
-
-validate:
-	composer validate
-
-
-start:
-	php -S 0.0.0.0:8080 index.php
-
+test:
+	composer exec phpunit tests
 
 lint:
 	composer exec phpcs -v -- --standard=PSR12 app -np
 
+test-coverage:
+	composer exec --verbose phpunit -- --testsuite gh-actions --coverage-clover build/logs/clover.xml
+
+up:
+	docker-compose up -d
+	make docker-install
+
+down:
+	docker-compose down
+
+docker-install:
+	docker exec -it application composer install
+
+docker-compose-test:
+	docker exec -it application make test
+
+docker-compose-bash:
+	docker exec -it application bash
+
+docker-compose-bash-mysql:
+	docker exec -it database bash
+
+env-prepare:
+	cp -n .env.example .env || true
