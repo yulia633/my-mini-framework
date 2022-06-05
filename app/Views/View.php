@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Views;
 
+/**
+ * Base View
+ *
+ */
 class View
 {
     /**
