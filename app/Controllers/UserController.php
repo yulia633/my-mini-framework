@@ -1,23 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
-use PDO;
 use App\Models\User;
+use App\Views\View;
 
+/**
+ * User Controller
+ */
 class UserController
 {
-    protected $db;
-
-    public function __construct(PDO $db)
-    {
-        $this->db = $db;
-    }
-
+    /**
+     * Show the index page
+     * @param mixed $response  The response object
+     *
+     * @return void
+     */
     public function index($response)
     {
-        $users = $this->db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_CLASS, User::class);
+        $response->setBody('User');
 
-        return $response->withJson($users);
+        $users = User::getAll();
+
+        View::renderTemplate('users', [
+            'users' => $users
+        ]);
     }
 }
